@@ -34,8 +34,8 @@ class WSTicTacToeChannel {
         console.error("In onError", evt);
     }
 
-    send(x) {
-        let msg = '{ "x": ' + (x) + "}";
+    send(estado) {
+        let msg = estado;
         console.log("sending: ", msg);
         this.wsocket.send(msg);
     }
@@ -60,33 +60,18 @@ class Board extends React.Component {
 		                        (msg) => {
 		                    var obj = JSON.parse(msg);
 		                    console.log("On func call back ", msg);
-		                    this.handleClick(obj.i);
+		                    this.actualizarEstado(obj);
 		                });
-	this.board= null; 
     this.state = {
       squares: Array(9).fill(null),
       xIsNext: true,
     };
-	let wsreference = this.comunicationWS;
-	this.sketch = (p) =>{
-		p.handleClick = (i) => {
-			const squares = this.state.squares.slice();
-	    	if (calculateWinner(squares) || squares[i]) {
-	      		return;
-	    	}
-	    	squares[i] = this.state.xIsNext ? 'X' : 'O';
-	    	this.setState({
-	      		squares: squares,
-	      		xIsNext: !this.state.xIsNext,
-	    	});
-			wsreference.send(i);
-		}
-	}
   }
 
-  componentDidMount(){
-	this.board = this.sketch;
+  actualizarEstado(estado){
+	 this.setState(estado);
   }
+
 
   handleClick(i) {
     const squares = this.state.squares.slice();
@@ -97,9 +82,8 @@ class Board extends React.Component {
     this.setState({
       squares: squares,
       xIsNext: !this.state.xIsNext,
-    });
-  }
-
+    }, () => this.comunicationWS.send(JSON.stringify(this.state))
+	)}
   renderSquare(i) {
     return (
       <Square

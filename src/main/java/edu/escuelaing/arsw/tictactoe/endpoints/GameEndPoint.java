@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
+import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -22,7 +23,7 @@ public class GameEndPoint {
 	    static Queue<Session> queue = new ConcurrentLinkedQueue<Session>();
 
 
-	    /* Call this method to send a message to all clients */
+
 	    public static void send(String msg) {
 	        try {
 	            /* Send updates to all open WebSocket sessions */
@@ -36,6 +37,12 @@ public class GameEndPoint {
 	    }
 
 
+	    @OnMessage
+	    public void processPoint(String message, Session session) {
+	        System.out.println("Point received:" + message + ". From session: " + session);
+	        this.send(message);
+	    }
+	    
 	    @OnOpen
 	    public void openConnection(Session session) {
 
@@ -49,7 +56,6 @@ public class GameEndPoint {
 	            Logger.getLogger(GameEndPoint.class.getName()).log(Level.SEVERE, null, ex);
 	        }
 	    }
-
 
 	    @OnClose
 	    public void closedConnection(Session session) {

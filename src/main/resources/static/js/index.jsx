@@ -35,8 +35,8 @@ class WSTicTacToeChannel {
         console.error("In onError", evt);
     }
 
-    send(x, y) {
-        let msg = '{ "x": ' + (x) + ', "y": ' + (y) + "}";
+    send(estado) {
+        let msg = estado;
         console.log("sending: ", msg);
         this.wsocket.send(msg);
     }
@@ -92,13 +92,7 @@ class Board extends React.Component {
 class Game extends React.Component {
   constructor(props){
 	super(props);
-	this.comunicationWS =
-		                new WSTicTacToeChannel(TicTacToeServiceURL(),
-		                        (msg) => {
-		                    var obj = JSON.parse(msg);
-		                    console.log("On func call back ", msg);
-		                    this.handleClick(obj.i);
-		                });
+	
 	this.state = {
 		history: [{
 			squares: Array(9).fill(null),
@@ -106,7 +100,13 @@ class Game extends React.Component {
 		xIsNext: true,
 		stepNumber: 0,
 	};
-	let wsreference = this.comunicationWS;
+	this.comunicationWS =
+		                new WSTicTacToeChannel(TicTacToeServiceURL(),
+		                        (msg) => {
+		                    var obj = JSON.parse(msg);
+		                    console.log("On func call back ", msg);
+		                    this.actualizarEstado(obj);
+		                });
   }
 
   jumpTo(step){
@@ -116,6 +116,11 @@ class Game extends React.Component {
 	})
 	
   }
+
+  actualizarEstado(estado){
+	this.setState(estado);
+  }
+
   handleClick(i){
 	//.slice copia de array
 	//no mutar 
@@ -138,7 +143,10 @@ class Game extends React.Component {
 		}]),
 		stepNumber: history.length,
 		xIsNext: !this.state.xIsNext,
-	});
+		}, () => {
+			this.comunicationWS.send(JSON.stringify(this.state));
+		});
+		console.log(this.state)
   }
   render() {
 	const history = this.state.history;
@@ -199,6 +207,23 @@ function calculateWinner(squares) {
     }
   }
   return null;
+}
+
+class Main extends React.Component{
+	constructor(props){
+		super(props);
+		this.state={
+			sala: ''
+		}
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleSala = this.handleSubmit.bind(this);
+	}
+	
+	handleSubmit(event){
+		event.preventDefault();
+		console.log("clickeo boton");
+		this.comunicationWS = new WSTicTacToeChannel(TicTacToeServiceURL(this.state.sala))	;
+	}
 }
 
 // ========================================
