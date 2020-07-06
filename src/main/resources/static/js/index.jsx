@@ -1,9 +1,14 @@
 const { Component } = React;
 const { render } = ReactDOM;
+const Router = ReactRouterDOM.BrowserRouter;
+const Route =  ReactRouterDOM.Route;
+const Link =  ReactRouterDOM.Link;
+const Switch = ReactRouterDOM.Switch;
+const Redirect = ReactRouterDOM.Redirect;
 
-function TicTacToeServiceURL() {
+function TicTacToeServiceURL(sala) {
     var host = window.location.host;
-    var url = 'ws://' + (host) + '/game';
+    var url = 'ws://' + (host) + '/game/'+ sala;
     console.log("URL Calculada: " + url);
     return url;
 }
@@ -91,6 +96,7 @@ class Board extends React.Component {
 
 class Game extends React.Component {
   constructor(props){
+	console.log(window.location.pathname.split("/")[2]);
 	super(props);
 	
 	this.state = {
@@ -101,7 +107,7 @@ class Game extends React.Component {
 		stepNumber: 0,
 	};
 	this.comunicationWS =
-		                new WSTicTacToeChannel(TicTacToeServiceURL(),
+		                new WSTicTacToeChannel(TicTacToeServiceURL(window.location.pathname.split("/")[2]),
 		                        (msg) => {
 		                    var obj = JSON.parse(msg);
 		                    console.log("On func call back ", msg);
@@ -216,19 +222,55 @@ class Main extends React.Component{
 			sala: ''
 		}
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleSala = this.handleSubmit.bind(this);
+		this.handleChangeSala = this.handleChangeSala.bind(this);
 	}
 	
 	handleSubmit(event){
 		event.preventDefault();
 		console.log("clickeo boton");
-		this.comunicationWS = new WSTicTacToeChannel(TicTacToeServiceURL(this.state.sala))	;
+		const {  history } = this.props;
+    	history.push('/sala/' + this.state.sala);
+		console.log(this.props);
+		
+		
+	}
+	
+	handleChangeSala(event){
+		this.setState({ sala: event.target.value });
+		console.log(this.state.sala);
+		
+	}
+	
+	render(){
+		return(
+			<div id="login">
+				<form  onSubmit={this.handleSubmit}>
+					<label for="nombre">Sala</label>
+					<input type="text" name="sala" onChange={this.handleChangeSala} id="sala" placeholder="Escribe nombre de la sala"/>
+					<button className="btn btn-primary" type="submit">Entrar</button>	
+				</form>
+			</div>
+		)
+	}
+}
+
+class App extends React.Component{
+	render(){
+		return(
+			<Router>
+		        <Switch>
+		          <Route path='/' exact={true} component={Main}/>
+				  <Route path="/sala/:id" exact={true} component={Game} />
+		         
+		        </Switch>
+	      </Router>
+		)
 	}
 }
 
 // ========================================
 
 ReactDOM.render(
-  <Game />,
+  <App />,
   document.getElementById('root')
 );
