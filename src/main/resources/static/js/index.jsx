@@ -8,7 +8,7 @@ const Redirect = ReactRouterDOM.Redirect;
 
 function TicTacToeServiceURL(sala) {
     var host = window.location.host;
-    var url = 'ws://' + (host) + '/game/'+ sala;
+    var url = 'wss://' + (host) + '/game/'+ sala;
     console.log("URL Calculada: " + url);
     return url;
 }
