@@ -2,20 +2,20 @@
 # Profesor: Luis Daniel Benavides
 # ARSW - Arquitectura de Software 2020-I 
 
-## DescripciÛn
-En este proyecto, se implementar· el juego cl·sico Tic Tac Toe (Triki), donde se podr· elegir una sala de juego, si no existe crearla e ingresar a los jugadores. Permite volver a un estado anterior del juego adem·s de poder jugar con normalidad al juego. 
+## Descripci√≥n
+En este proyecto, se implementar√° el juego cl√°sico Tic Tac Toe (Triki), donde se podr√° elegir una sala de juego, si no existe crearla e ingresar a los jugadores. Permite volver a un estado anterior del juego adem√°s de poder jugar con normalidad al juego. 
 
-[°Link de la aplicaciÛn desplegada en Heroku!](https://radiant-savannah-21856.herokuapp.com/index1.html)
+[¬°Link de la aplicaci√≥n desplegada en Heroku!](https://ancient-coast-97077.herokuapp.com/)
 
 ## Prerrequisitos 
-InstalaciÛn de JAVA 8 y Maven, manejo de Maven como administrador proyectos y librerÌas y JAVA OO
+Instalaci√≥n de JAVA 8 y Maven, manejo de Maven como administrador proyectos y librer√≠as y JAVA OO
 
-## DiseÒo 
+## Dise√±o 
 ### Diagrama de Componentes
 ![DiagramaComponentes](./img/diagramaComponentes.PNG)
 
-### DescripciÛn 
-En este diagrama podemos observar, como realizan las solicitudes los clientes que en este caso ser·n los navegadores los cuales se implementaron con React JS donde se realizo el juego de Tictac Toe adem·s hacen peticiones a un EndPoint exactamente a una sala o crear una sala en SpringMVC que ser· el encargado de manejar las sesiones de los usuarios, la administraciÛn de las salas y configuraciÛn de persistencia de historial, para volver a un punto anterior, que se manejara en MongoDB.
+### Descripci√≥n 
+En este diagrama podemos observar, como realizan las solicitudes los clientes que en este caso ser√°n los navegadores los cuales se implementaron con React JS donde se realizo el juego de Tictac Toe adem√°s hacen peticiones a un EndPoint exactamente a una sala o crear una sala en SpringMVC que ser√° el encargado de manejar las sesiones de los usuarios, la administraci√≥n de las salas y configuraci√≥n de persistencia de historial, para volver a un punto anterior, que se manejara en MongoDB.
 
 ## Uso del Proyecto 
 Clonamos nuestro proyecto desde GitHub
@@ -25,30 +25,30 @@ git clone https://github.com/DanielAlfonso17/ARSWLAB7.git
 Abrimos con una IDE nuestro proyecto, como primera forma podremos ejecutarlo asi 
 ![DiagramaComponentes](./img/proyecto1.png)
 
-TambiÈn podemos ejecutarlo desde la lÌnea de comandos CMD de la siguiente manera, primero lo compilamos con el comando 
+Tambi√©n podemos ejecutarlo desde la l√≠nea de comandos CMD de la siguiente manera, primero lo compilamos con el comando 
 ~~~
 mvn package
 ~~~
-![compilaciÛn](./img/compilacion.PNG)
-despuÈs ejecutamos con el comando 
+![compilaci√≥n](./img/compilacion.PNG)
+despu√©s ejecutamos con el comando 
 ~~~
 mvn spring-boot:run
 ~~~
 ![compilacion](./img/ejecucion1.PNG)
 ![compilacion](./img/ejecucion2.PNG)
-Podemos observar que ya est· corriendo nuestra aplicaciÛn por el puerto 8080 procedemos en el navegador a escribir 
+Podemos observar que ya est√° corriendo nuestra aplicaci√≥n por el puerto 8080 procedemos en el navegador a escribir 
 
 ~~~
 localhost:8080
 ~~~
 
-Obtendremos como resultado la p·gina de inicio del juego, asÌ como se muestra. En esta primera pantalla, debemos ingresar la sala que queremos entrar o crear. 
+Obtendremos como resultado la p√°gina de inicio del juego, as√≠ como se muestra. En esta primera pantalla, debemos ingresar la sala que queremos entrar o crear. 
 
 
 ![compilacion](./img/juego1.PNG)
 
 
-Para el ejemplo, ingresaremos a la misma sala uno en la barra de navegaciÛn podemos observar que cambia la ruta por la de la sala 
+Para el ejemplo, ingresaremos a la misma sala uno en la barra de navegaci√≥n podemos observar que cambia la ruta por la de la sala 
 
 ![compilacion](./img/juego2.PNG)
 
